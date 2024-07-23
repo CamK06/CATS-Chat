@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QMetaObject>
+#include <QSettings>
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -50,4 +51,5 @@ private:
     QLabel *default_label;
     QPushButton *default_button;
     QMetaObject::Connection *default_button_connection;
+    QSettings settings;
 };

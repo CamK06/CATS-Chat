@@ -28,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->messageSendTo, &QAction::triggered, message_dialog, &MessageDialog::show);
     connect(ui->tabWidget->tabBar(), &QTabBar::tabCloseRequested, this, &MainWindow::tab_close);
 
+    // For QSettings
+    QCoreApplication::setOrganizationName("VE3KCN");
+    QCoreApplication::setApplicationName("CATS Chat");
+
     // Outgoing messagebox 
     send_message_button = new QPushButton("Send");
     message_box = new QLineEdit();

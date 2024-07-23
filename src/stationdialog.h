@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDialog>
+#include <QSettings>
 
 #include "./ui_stationdialog.h"
 
@@ -14,5 +15,11 @@ class StationDialog : public QDialog
 
 public:
     StationDialog(QWidget *parent = nullptr);
+
+private:
+    void save();
+    void reset_inputs();
+
     Ui::StationDialog *ui;
+    QSettings settings;
 };

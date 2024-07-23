@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDialog>
+#include <QSettings>
 
 #include "./ui_radiodialog.h"
 
@@ -14,5 +15,10 @@ class RadioDialog : public QDialog
 
 public:
     RadioDialog(QWidget *parent = nullptr);
+
+    void save();
+    void reset_inputs();
+
     Ui::RadioDialog *ui;
+    QSettings settings;
 };
