@@ -9,5 +9,4 @@ MessageDialog::MessageDialog(QWidget *parent)
 {
     ui->setupUi(this);
     setModal(true);
-    show();
 }

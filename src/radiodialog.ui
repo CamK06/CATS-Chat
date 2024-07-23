@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MessageDialog</class>
- <widget class="QDialog" name="MessageDialog">
+ <class>RadioDialog</class>
+ <widget class="QDialog" name="RadioDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,47 +29,54 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>New Message</string>
+   <string>Configure Radio</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>6</number>
-   </property>
-   <property name="leftMargin">
-    <number>6</number>
-   </property>
    <item>
     <layout class="QFormLayout" name="formLayout">
-     <property name="formAlignment">
-      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
-     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>To:</string>
+        <string>Serial Port:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="toCall">
-       <property name="placeholderText">
-        <string>N0CALL-10</string>
+      <widget class="QComboBox" name="serialPort">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="currentText">
+        <string>/dev/ttyACM0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Baud Rate:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QCheckBox" name="requireACK">
-       <property name="enabled">
-        <bool>false</bool>
+      <widget class="QComboBox" name="baudRate">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="text">
-        <string>Require message ACKs</string>
-       </property>
-       <property name="checkable">
+       <property name="editable">
         <bool>true</bool>
        </property>
-       <property name="tristate">
-        <bool>false</bool>
+       <property name="currentText">
+        <string>115200</string>
        </property>
       </widget>
      </item>
@@ -83,9 +90,6 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
-     <property name="centerButtons">
-      <bool>false</bool>
-     </property>
     </widget>
    </item>
   </layout>
@@ -95,7 +99,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>MessageDialog</receiver>
+   <receiver>RadioDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -111,7 +115,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>MessageDialog</receiver>
+   <receiver>RadioDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

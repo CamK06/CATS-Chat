@@ -7,8 +7,9 @@ set(CMAKE_AUTOUIC ON)
 
 file(GLOB SOURCES src/main.cpp
                   src/mainwindow.cpp
-                  src/connectdialog.cpp
-                  src/messagedialog.cpp)
+                  src/radiodialog.cpp
+                  src/messagedialog.cpp
+                  src/stationdialog.cpp)
 
 find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
