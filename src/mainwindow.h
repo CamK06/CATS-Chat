@@ -7,6 +7,8 @@
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QSerialPort>
+#include <QStatusBar>
 
 #include "radiodialog.h"
 #include "messagedialog.h"
@@ -33,7 +35,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
+    void status(QString text);
     void ui_set_state(enum UIState state);
     void tab_close(int index);
     void file_exit();
@@ -52,4 +58,7 @@ private:
     QPushButton *default_button;
     QMetaObject::Connection *default_button_connection;
     QSettings settings;
+    QSerialPort serial;
+    QStatusBar *status_bar;
+    QLabel *status_bar_text;
 };

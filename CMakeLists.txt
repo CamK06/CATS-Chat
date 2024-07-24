@@ -11,8 +11,8 @@ file(GLOB SOURCES src/main.cpp
                   src/messagedialog.cpp
                   src/stationdialog.cpp)
 
-find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS Widgets SerialPort REQUIRED)
+find_package(Qt6 COMPONENTS Widgets SerialPort REQUIRED)
 
 if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
   execute_process(
@@ -27,4 +27,4 @@ endif()
 add_definitions("-DGIT_COMMIT=\"${GIT_COMMIT}\"")
 
 add_executable(cats-chat ${SOURCES})
-target_link_libraries(cats-chat Qt6::Widgets)
+target_link_libraries(cats-chat Qt6::Widgets Qt6::SerialPort)

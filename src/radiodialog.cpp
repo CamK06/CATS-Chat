@@ -1,5 +1,6 @@
 #include <QDialog>
 #include <QSettings>
+#include <QSerialPortInfo>
 
 #include "radiodialog.h"
 #include "./ui_radiodialog.h"
@@ -11,9 +12,15 @@ RadioDialog::RadioDialog(QWidget *parent)
     ui->setupUi(this);
     setModal(true);
 
-    reset_inputs();
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &RadioDialog::save);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &RadioDialog::reset_inputs);
+
+    const auto serial_ports = QSerialPortInfo::availablePorts();
+    for(const QSerialPortInfo &port_info : serial_ports) {
+        ui->serialPort->addItem(port_info.systemLocation());
+    }
+
+    reset_inputs();
 }
 
 void RadioDialog::save()
