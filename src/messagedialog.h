@@ -15,4 +15,7 @@ class MessageDialog : public QDialog
 public:
     MessageDialog(QWidget *parent = nullptr);
     Ui::MessageDialog *ui;
+
+private:
+    void ok();
 };

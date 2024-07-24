@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <QMainWindow>
 #include <QPushButton>
 #include <QMetaObject>
@@ -34,11 +36,13 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void new_conversation(QString callsign, bool require_ack);
 
 protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
+    void send_message();
     void status(QString text);
     void ui_set_state(enum UIState state);
     void tab_close(int index);

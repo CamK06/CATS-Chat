@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>545</height>
+    <width>380</width>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,7 +66,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>659</width>
+     <width>380</width>
      <height>30</height>
     </rect>
    </property>
@@ -76,7 +76,7 @@
     </property>
     <widget class="QMenu" name="menuConfigure">
      <property name="title">
-      <string>Configure</string>
+      <string>&amp;Configure</string>
      </property>
      <addaction name="configureRadio"/>
      <addaction name="configureStation"/>
@@ -103,7 +103,7 @@
   </widget>
   <action name="messageSendTo">
    <property name="text">
-    <string>New</string>
+    <string>&amp;New</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -114,12 +114,12 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Clear All</string>
+    <string>&amp;Clear All</string>
    </property>
   </action>
   <action name="fileExit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -132,17 +132,17 @@
   </action>
   <action name="radioConnect">
    <property name="text">
-    <string>Connect</string>
+    <string>&amp;Connect</string>
    </property>
   </action>
   <action name="configureRadio">
    <property name="text">
-    <string>Radio</string>
+    <string>&amp;Radio</string>
    </property>
   </action>
   <action name="configureStation">
    <property name="text">
-    <string>Station</string>
+    <string>&amp;Station</string>
    </property>
   </action>
  </widget>

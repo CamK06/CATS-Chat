@@ -2,6 +2,7 @@
 #include <QSizePolicy>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QTextEdit>
 #include <QTabBar>
 #include <QLabel>
 #include <iostream>
@@ -21,13 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     , station_dialog(new StationDialog(this))
 {
     ui->setupUi(this);
-
-    connect(ui->fileExit, &QAction::triggered, this, &MainWindow::file_exit);
-    connect(ui->radioConnect, &QAction::triggered, this, &MainWindow::radio_connect);
-    connect(ui->configureRadio, &QAction::triggered, radio_dialog, &RadioDialog::show);
-    connect(ui->configureStation, &QAction::triggered, station_dialog, &StationDialog::show);
-    connect(ui->messageSendTo, &QAction::triggered, message_dialog, &MessageDialog::show);
-    connect(ui->tabWidget->tabBar(), &QTabBar::tabCloseRequested, this, &MainWindow::tab_close);
 
     // For QSettings
     QCoreApplication::setOrganizationName("VE3KCN");
@@ -53,7 +47,41 @@ MainWindow::MainWindow(QWidget *parent)
     default_layout->addWidget(default_label, 0, Qt::AlignCenter);
     default_layout->addWidget(default_button, 0, Qt::AlignCenter);
     default_layout->addStretch();
-    ui_set_state(UIState::AWAITING_MSG);
+    ui_set_state(UIState::AWAITING_RADIO);
+
+    // Signals
+    connect(ui->fileExit, &QAction::triggered, this, &MainWindow::file_exit);
+    connect(ui->radioConnect, &QAction::triggered, this, &MainWindow::radio_connect);
+    connect(ui->configureRadio, &QAction::triggered, radio_dialog, &RadioDialog::show);
+    connect(ui->configureStation, &QAction::triggered, station_dialog, &StationDialog::show);
+    connect(ui->messageSendTo, &QAction::triggered, message_dialog, &MessageDialog::show);
+    connect(ui->tabWidget->tabBar(), &QTabBar::tabCloseRequested, this, &MainWindow::tab_close);
+    connect(send_message_button, &QPushButton::pressed, this, &MainWindow::send_message);
+    connect(message_box, &QLineEdit::returnPressed, this, &MainWindow::send_message);
+}
+
+void MainWindow::send_message()
+{
+    if(ui_state != UIState::CONVERSATION) {
+        return; // How did we get here to begin with??
+    }
+
+    ((QTextEdit*)ui->tabWidget->currentWidget())->append(QString("<%1> %2")
+        .arg(settings.value("station/callsign").toString())
+        .arg(message_box->text()));
+    message_box->clear();
+}
+
+void MainWindow::new_conversation(QString callsign, bool require_ack)
+{
+    if(ui_state != UIState::CONVERSATION) {
+        ui_set_state(UIState::CONVERSATION);
+    }
+
+    QTextEdit* edit = new QTextEdit(this);
+    edit->setReadOnly(true);
+    int tab = ui->tabWidget->addTab(edit, callsign);
+    ui->tabWidget->setCurrentIndex(tab);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -106,12 +134,18 @@ void MainWindow::ui_set_state(enum UIState state)
         default_button->setVisible(true);
         send_message_button->setVisible(false);
         message_box->setVisible(false);
+        for(int i = 0; i < ui->tabWidget->count(); i++) {
+            ui->tabWidget->setTabVisible(i, false);
+        }
     }
     else {
         default_label->setVisible(false);
         default_button->setVisible(false);
         send_message_button->setVisible(true);
         message_box->setVisible(true);
+        for(int i = 0; i < ui->tabWidget->count(); i++) {
+            ui->tabWidget->setTabVisible(i, true);
+        }
     }
 
     // Set label + button text
@@ -130,6 +164,13 @@ void MainWindow::ui_set_state(enum UIState state)
         connect(default_button, &QPushButton::pressed, message_dialog, &MessageDialog::show);
         ui->messageSendTo->setEnabled(true);
         ui->radioConnect->setText("Disconnect");
+
+        // If there's existing conversations, jump straight to conversation state
+        // we need to go through AWAITING_MSG first though hence why this is at the end of that
+        if(ui->tabWidget->count() > 0) {
+            ui_set_state(UIState::CONVERSATION);
+            return;
+        }
     }
     this->ui_state = state;
 }
@@ -141,7 +182,10 @@ void MainWindow::status(QString text)
 
 void MainWindow::tab_close(int index)
 {
-    ui->tabWidget->tabBar()->removeTab(index);
+    ui->tabWidget->removeTab(index);
+    if(ui->tabWidget->count() <= 0) {
+        ui_set_state(UIState::AWAITING_MSG);
+    }
 }
 
 void MainWindow::file_exit()
